@@ -9,10 +9,13 @@ import (
 	"github.com/spf13/viper"
 	"fmt"
 	"time"
+	"github.com/ducnt114/testprj/drivers/mongo"
+	"github.com/ducnt114/testprj/entity"
 )
 
 // S3UploadHandler --
 type S3UploadHandler struct {
+	MongoConn *mongo.MongoConnection
 }
 
 type s3UploadResponse struct {
@@ -63,8 +66,19 @@ func (h *S3UploadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// store metadata to mongodb
+	collection := h.MongoConn.Session.DB(viper.GetString("mongo.db")).C(viper.GetString("mongo.collection"))
+	err = collection.Insert(&entity.FileUploadMetaData{
+		ID:       time.Now().Unix(),
+		FileName: storageFileName,
+		FileSize: handler.Size,
+		FileURL:  fileURL,
+	})
+	if err != nil {
+		log.Println("Error when save metadata to mongo, detail: ", err)
+	}
 
-	// remove local file in temporary dir
+	// remove local file in temporary dir, ignore even if error occur
+	os.Remove(storageFilePath)
 
 	// return success
 	utils.ResponseJSON(w, &s3UploadResponse{Success: true, ImageURL: fileURL})

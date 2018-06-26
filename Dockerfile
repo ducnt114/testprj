@@ -1,7 +1,8 @@
 FROM golang:1.9.2 as builder
+RUN mkdir -p /go/src/github.com/ducnt114
 COPY . /go/src/github.com/ducnt114/testprj
-WORKDIR /go/src/testprj
-RUN cd cmd/testprj && go get && env GOOS=linux GOARCH=amd64 go build
+WORKDIR /go/src/github.com/ducnt114/testprj
+RUN cd cmd/testprj && go get && env GOOS=linux GOARCH=386 go build
 RUN mkdir /app && cd cmd/testprj && cp testprj /app && cp -r conf /app
 
 FROM alpine:3.7

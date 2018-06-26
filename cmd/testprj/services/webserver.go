@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"github.com/ducnt114/testprj/cmd/testprj/services/handlers"
+	"github.com/ducnt114/testprj/drivers/mongo"
 )
 
 // Route --
@@ -16,6 +17,8 @@ type Route struct {
 
 // Routes --
 type Routes []Route
+
+var MongoConnection *mongo.MongoConnection
 
 // NewRouter --
 func NewRouter() *mux.Router {
@@ -35,16 +38,24 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-var basePath = "/v1/chat"
+var basePath = "/v1/file"
 var routes []Route
 
 func initRoutes() {
 	routes = Routes{
 		Route{
+			Name:    "Ping",
+			Method:  http.MethodGet,
+			Pattern: basePath + "/ping",
+			Handler: &handlers.PingHandler{},
+		},
+		Route{
 			Name:    "Upload file to s3",
 			Method:  http.MethodPost,
 			Pattern: basePath + "/s3-upload",
-			Handler: &handlers.S3UploadHandler{},
+			Handler: &handlers.S3UploadHandler{
+				MongoConn: MongoConnection,
+			},
 		},
 	}
 }

@@ -7,10 +7,22 @@ import (
 	"github.com/ducnt114/testprj/utils"
 	"log"
 	"github.com/ducnt114/testprj/cmd/testprj/services"
+	"github.com/ducnt114/testprj/drivers/mongo"
 )
 
 func init() {
 	utils.LoadConfig()
+
+	initMongo()
+}
+
+func initMongo() {
+	// Init database connection
+	mgConn, err := mongo.NewConnection()
+	if err != nil {
+
+	}
+	services.MongoConnection = mgConn
 }
 
 func main() {
@@ -18,4 +30,8 @@ func main() {
 	router := services.NewRouter()
 
 	log.Println(http.ListenAndServe(fmt.Sprintf(":%d", viper.GetInt("server.port")), router))
+}
+
+func onClose() {
+	services.MongoConnection.Session.Close()
 }
