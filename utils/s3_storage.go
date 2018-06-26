@@ -29,13 +29,13 @@ func NewS3Client(region, id, secret, token string) (*s3_storage, error) {
 	return &s3_storage{Session: sess}, nil
 }
 
-func (s *s3_storage) UploadFile(fileName, bucket string) (error) {
+func (s *s3_storage) UploadFile(fileName, bucket string) (string, error) {
 	svc := s3manager.NewUploader(s.Session)
 
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Println("Failed to open file", fileName, err)
-		return err
+		return "", err
 	}
 	defer file.Close()
 
@@ -47,9 +47,9 @@ func (s *s3_storage) UploadFile(fileName, bucket string) (error) {
 	})
 	if err != nil {
 		log.Println("Error when upload file to s3, detail: ", err)
-		return err
+		return "", err
 	}
 
 	log.Printf("Successfully uploaded %s to %s\n", fileName, result.Location)
-	return nil
+	return result.Location, nil
 }
