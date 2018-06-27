@@ -1,11 +1,11 @@
 package mongo
 
 import (
-	"gopkg.in/mgo.v2"
 	"fmt"
-	"time"
 	"github.com/spf13/viper"
+	"gopkg.in/mgo.v2"
 	"log"
+	"time"
 )
 
 type MongoConnection struct {

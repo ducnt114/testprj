@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"github.com/spf13/viper"
 	"fmt"
+	"github.com/spf13/viper"
 )
 
 func LoadConfig() {

@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"net/http"
-	"log"
 	"encoding/json"
+	"log"
+	"net/http"
 )
 
 func ResponseJSON(w http.ResponseWriter, data interface{}) {

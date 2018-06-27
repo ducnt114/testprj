@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"net/http"
 	"github.com/ducnt114/testprj/utils"
+	"net/http"
 )
 
 type PingHandler struct {

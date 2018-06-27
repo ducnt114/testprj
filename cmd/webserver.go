@@ -1,10 +1,10 @@
-package services
+package cmd
 
 import (
-	"net/http"
-	"github.com/gorilla/mux"
-	"github.com/ducnt114/testprj/cmd/testprj/services/handlers"
+	"github.com/ducnt114/testprj/cmd/handlers"
 	"github.com/ducnt114/testprj/drivers/mongo"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 // Route --

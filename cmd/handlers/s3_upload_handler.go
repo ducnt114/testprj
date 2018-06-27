@@ -1,16 +1,16 @@
 package handlers
 
 import (
-	"net/http"
-	"os"
-	"io"
-	"log"
-	"github.com/ducnt114/testprj/utils"
-	"github.com/spf13/viper"
 	"fmt"
-	"time"
 	"github.com/ducnt114/testprj/drivers/mongo"
 	"github.com/ducnt114/testprj/entity"
+	"github.com/ducnt114/testprj/utils"
+	"github.com/spf13/viper"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"time"
 )
 
 // S3UploadHandler --
@@ -68,10 +68,10 @@ func (h *S3UploadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// store metadata to mongodb
 	collection := h.MongoConn.Session.DB(viper.GetString("mongo.db")).C(viper.GetString("mongo.collection"))
 	err = collection.Insert(&entity.FileUploadMetaData{
-		ID:       time.Now().Unix(),
-		FileName: storageFileName,
-		FileSize: handler.Size,
-		FileURL:  fileURL,
+		FileName:  storageFileName,
+		FileSize:  handler.Size,
+		FileURL:   fileURL,
+		CreatedAt: time.Now().Unix(),
 	})
 	if err != nil {
 		log.Println("Error when save metadata to mongo, detail: ", err)

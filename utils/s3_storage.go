@@ -1,13 +1,13 @@
 package utils
 
 import (
-	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
-	"log"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"path/filepath"
+	"log"
 	"os"
+	"path/filepath"
 )
 
 type s3_storage struct {
